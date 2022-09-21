@@ -2,12 +2,25 @@ name: "Python Container Action Template"
 description: "Get started with Python Container actions"
 author: "Test"
 inputs:
-  myInput:
-    description: "Input to use"
-    default: "world"
+  dbt_cloud_token:
+    description: dbt Cloud API token
+    required: true
+  dbt_cloud_account_id:
+    description: dbt Cloud account ID
+    required: true
+  dbt_cloud_job_id:
+    description: dbt Cloud Job ID
+    required: true
+  job_check_interval:
+    description: Interval between polls in seconds
+    required: false
+    default: "45"
+  fail_check_on_job_error:
+    description: Boolean to make the action report a failure when dbt-cloud runs.
+    required: true
 outputs:
-  myOutput:
-    description: "Output from the action"
+  dbt_cloud_job_sucess:
+    description: "Will be True if the dbt cloud job was sucessful and False if not"
 runs:
   using: "docker"
   image: "Dockerfile"
