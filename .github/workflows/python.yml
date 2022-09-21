@@ -11,8 +11,3 @@ jobs:
           python-version: "3.7"
 
       - uses: actions/checkout@v1
-
-      - name: Lint
-        run: |
-          pip install flake8
-          flake8 main.py
