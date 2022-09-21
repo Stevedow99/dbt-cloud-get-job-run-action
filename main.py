@@ -1,5 +1,5 @@
 import os
-import requests 
+import requests
 
 
 # ------------------------------------------------------------------------------
@@ -9,7 +9,7 @@ import requests
 # setting the dbt cloud token to use dbt cloud API
 dbt_cloud_token = os.environ["INPUT_DBT_CLOUD_TOKEN"]
 
-# setting the dbt cloud account id 
+# setting the dbt cloud account id
 dbt_cloud_account_id = os.environ["INPUT_DBT_CLOUD_ACCOUNT_ID"]
 
 # setting the dbt cloud job id
@@ -32,7 +32,8 @@ req_auth_headers = {'Authorization': f'Token {dbt_cloud_token}'}
 base_dbt_cloud_api_url = f'https://cloud.getdbt.com/api/v2/accounts/{dbt_cloud_account_id}'
 
 # setting the dbt cloud run status to human readable codes
-run_status_map = { # dbt run statuses are encoded as integers. This map provides a human-readable status
+# dbt run statuses are encoded as integers. This map provides a human-readable status
+run_status_map = {
   1:  'Queued',
   2:  'Starting',
   3:  'Running',
@@ -52,7 +53,7 @@ def get_most_recent_run_for_job(base_url, headers, job_id):
     dbt_cloud_runs_url = f"{base_url}/runs/?job_definition_id={job_id}"
 
     # getting the run id
-    most_recent_run_id = requests.get(dbt_cloud_runs_url, headers=headers).json()['data'][-1]['id']
+    most_recent_run_id = requests.get(dbt_cloud_runs_url, headers=headers, timeout=30).json()['data'][-1]['id']
 
     # returning the run id
     return most_recent_run_id
@@ -68,7 +69,7 @@ def get_run_status(base_url, headers, run_id):
     dbt_cloud_run_status_url = f"{base_url}/runs/{run_id}"
 
     # get status
-    run_status_code = requests.get(dbt_cloud_run_status_url, headers=headers).json()['data']['status']
+    run_status_code = requests.get(dbt_cloud_run_status_url, headers=headers, timeout=30).json()['data']['status']
 
     # get status mapping
     run_status = run_status_map[run_status_code]
