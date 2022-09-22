@@ -1,4 +1,4 @@
-name: "dbt Cloud Job most recent run check"
+name: "dbt Cloud Get Job Run Action"
 description: "This actions checks a dbt cloud job and find the most recent run. It then waits until the run is over and outputs the status"
 branding:
   icon: "cloud"
