@@ -1,0 +1,28 @@
+name: "dbt Cloud Job most recent run check"
+description: "This actions checks a dbt cloud job and find the most recent run. It then waits until the run is over and outputs the status"
+branding:
+  icon: "cloud"
+  color: "orange"
+author: "Steve Dowling"
+inputs:
+  dbt_cloud_token:
+    description: dbt Cloud API token
+    required: true
+  dbt_cloud_account_id:
+    description: dbt Cloud account ID
+    required: true
+  dbt_cloud_job_id:
+    description: dbt Cloud Job ID
+    required: true
+  job_check_interval:
+    description: Interval between polls in seconds
+    required: false
+    default: "45"
+outputs:
+  dbt_cloud_job_run_status:
+    description: "The human readable version of the most recent dbt cloud job"
+  dbt_cloud_job_run_url:
+    description: "A link to the dbt cloud job run"
+runs:
+  using: "docker"
+  image: "Dockerfile"
