@@ -59,11 +59,11 @@ jobs:
     steps:
       - name: Get dbt Cloud job run and return the status
         id: get_job_run
-        uses: stevedow99/dbt-cloud-get-job-run-action@V1.0
+        uses: stevedow99/dbt-cloud-get-job-run-action@v1.0
         with:
           dbt_cloud_token: ${{ secrets.DBT_CLOUD_TOKEN }}
           dbt_cloud_account_id: 98765
-          dbt_cloud_job_id: 123456 
+          dbt_cloud_job_id: 123456
 ```
 ___
 ## **Examples of using this Github action with other workflows**
@@ -100,11 +100,11 @@ jobs:
       # running the step to get the most recent job run results and return the status
       - name: Get dbt Cloud job run and return the status
         id: get_job_run
-        uses: stevedow99/dbt-cloud-get-job-run-action@V1.0
+        uses: stevedow99/dbt-cloud-get-job-run-action@v1.0
         with:
           dbt_cloud_token: ${{ secrets.DBT_CLOUD_TOKEN }}
           dbt_cloud_account_id: 98765
-          dbt_cloud_job_id: 123456 
+          dbt_cloud_job_id: 123456
 
       # using the returned run status to throw an error on the PR if the dbt cloud job was not a sucess
       - name: Check on dbt cloud job failures
@@ -155,16 +155,16 @@ jobs:
       # running the step to get the most recent job run results and return the status
       - name: Get dbt Cloud job run and return the status
         id: get_job_run
-        uses: stevedow99/dbt-cloud-get-job-run-action@V1.0
+        uses: stevedow99/dbt-cloud-get-job-run-action@v1.0
         with:
           dbt_cloud_token: ${{ secrets.DBT_CLOUD_TOKEN }}
           dbt_cloud_account_id: 98765
-          dbt_cloud_job_id: 123456 
-
+          dbt_cloud_job_id: 123456
+          
       # if the job run was a success we comment on the PR with a check and a link to the dbt Cloud Job run
       - name: PR comment with sucess
         uses: mshick/add-pr-comment@v1
-        if:  steps.selftest.outputs.dbt_cloud_job_run_status == 'Success'
+        if:  steps.get_job_run.outputs.dbt_cloud_job_run_status == 'Success'
         with:
           message: |
             ## ✅ dbt Cloud job finished with the status ${{ steps.get_job_run.outputs.dbt_cloud_job_run_status }}
@@ -177,11 +177,11 @@ jobs:
       # if the run was a failure we comment on the PR with a X and a link to the dbt Cloud Job run
       - name: PR comment with failure
         uses: mshick/add-pr-comment@v1
-        if:  steps.selftest.outputs.dbt_cloud_job_run_status != 'Success'
+        if:  steps.get_job_run.outputs.dbt_cloud_job_run_status != 'Success'
         with:
           message: |
             ## ❌ dbt Cloud job finished with the status ${{ steps.get_job_run.outputs.dbt_cloud_job_run_status }}
-            View the dbt Cloud job run [here](${{ steps.get_job_run.outputs.dbt_cloud_job_run_url }}")
+            View the dbt Cloud job run [here](${{ steps.get_job_run.outputs.dbt_cloud_job_run_url }})
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           repo-token-user-login: 'github-actions[bot]'
           allow-repeats: false # This is the default
