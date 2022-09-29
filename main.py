@@ -18,7 +18,7 @@ dbt_cloud_account_id = os.environ["INPUT_DBT_CLOUD_ACCOUNT_ID"]
 dbt_cloud_job_id = os.environ["INPUT_DBT_CLOUD_JOB_ID"]
 
 # setting the job_check_interval
-job_check_interval = int(os.environ["INPUT_JOB_CHECK_INTERVAL"])
+job_check_interval = int(os.environ.get("INPUT_JOB_CHECK_INTERVAL", "10"))
 
 # ------------------------------------------------------------------------------
 # use environment variables to set dbt cloud api configuration
@@ -49,10 +49,10 @@ run_status_map = {
 def get_most_recent_run_for_job(base_url, headers, job_id):
 
     # setting the request url
-    dbt_cloud_runs_url = f"{base_url}/runs/?job_definition_id={job_id}"
+    dbt_cloud_runs_url = f"{base_url}/runs/?job_definition_id={job_id}&order_by=-id"
 
     # getting the run
-    most_recent_run = requests.get(dbt_cloud_runs_url, headers=headers, timeout=30).json()['data'][-1]
+    most_recent_run = requests.get(dbt_cloud_runs_url, headers=headers, timeout=30).json()['data'][0]
 
     # getting the run id
     run_id = most_recent_run['id']
